@@ -2,6 +2,15 @@ pageextension 50300 "Vendor Card Ext" extends "Vendor Card"
 {
     layout
     {
+        addfirst(factboxes)
+        {
+            part(VendorPerformanceFactbox; "Vendor Performance Factbox")
+            {
+                ApplicationArea = All;
+                SubPageLink = "No." = FIELD("No.");
+            }
+        }
+
         addlast(General)
         {
             group(Performance)
@@ -50,6 +59,7 @@ pageextension 50300 "Vendor Card Ext" extends "Vendor Card"
                     StyleExpr = PerformanceTrendStyle;
                 }
             }
+
         }
     }
 
@@ -85,6 +95,7 @@ pageextension 50300 "Vendor Card Ext" extends "Vendor Card"
                 RunPageLink = "Vendor No." = field("No.");
                 ToolTip = 'View the performance history for this vendor.';
             }
+
         }
     }
 
