@@ -12,6 +12,15 @@ pageextension 50302 "Purchase Order Ext" extends "Purchase Order"
                 Caption = 'Vendor Performance';
             }
         }
+        addfirst(factboxes)
+        {
+            part(VendorPerformanceFactbox; "Vendor Performance Factbox")
+            {
+                ApplicationArea = All;
+                SubPageLink = "No." = FIELD("Buy-from Vendor No.");
+                UpdatePropagation = SubPart;
+            }
+        }
     }
 
     local procedure GetVendorPerformanceIndicator(): Text

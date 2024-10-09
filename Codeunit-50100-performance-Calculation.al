@@ -15,21 +15,24 @@ codeunit 50300 "Performance Calculation"
 
     procedure CalculateOnTimeDeliveryRate(VendorNo: Code[20]): Decimal
     var
-        PurchRcptHeader: Record "Purch. Rcpt. Header";
-        TotalDeliveries, OnTimeDeliveries : Integer;
+        PurchRcptLine: Record "Purch. Rcpt. Line";
+        TotalLineItems, OnTimeLineItems : Integer;
     begin
-        PurchRcptHeader.SetRange("Buy-from Vendor No.", VendorNo);
-        PurchRcptHeader.SetRange("Posting Date", CalcDate('<-1Y>', WorkDate()), WorkDate());
+        PurchRcptLine.SetRange("Buy-from Vendor No.", VendorNo);
+        PurchRcptLine.SetRange("Posting Date", CalcDate('<-1Y>', WorkDate()), WorkDate());
+        PurchRcptLine.SetFilter(Quantity, '<>0');  // Ensure we only count lines with actual items
 
-        if PurchRcptHeader.FindSet() then
+        if PurchRcptLine.FindSet() then
             repeat
-                TotalDeliveries += 1;
-                if PurchRcptHeader."Posting Date" <= PurchRcptHeader."Expected Receipt Date" then
-                    OnTimeDeliveries += 1;
-            until PurchRcptHeader.Next() = 0;
+                TotalLineItems += 1;
+                if (PurchRcptLine."Posting Date" <= PurchRcptLine."Expected Receipt Date") and
+                (PurchRcptLine."Expected Receipt Date" <> 0D) then
+                    OnTimeLineItems += 1;
+            until PurchRcptLine.Next() = 0;
 
-        if TotalDeliveries > 0 then
-            exit(OnTimeDeliveries / TotalDeliveries * 100)
+
+        if TotalLineItems > 0 then
+            exit(OnTimeLineItems / TotalLineItems * 100)
         else
             exit(0);
     end;
