@@ -22,30 +22,65 @@ pageextension 50300 "Vendor Card Ext" extends "Vendor Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the overall performance score of the vendor.';
                     StyleExpr = OverallPerformanceStyle;
+                    DrillDown = true;
+                    DrillDownPageId = "Vendor Performance History";
+
+                    trigger OnDrillDown()
+                    begin
+                        OpenVendorPerformanceHistory('');
+                    end;
                 }
                 field("On-Time Delivery Rate"; Rec."On-Time Delivery Rate")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the on-time delivery rate of the vendor.';
                     StyleExpr = OnTimeDeliveryStyle;
+                    DrillDown = true;
+                    DrillDownPageId = "Vendor Performance History";
+
+                    trigger OnDrillDown()
+                    begin
+                        OpenVendorPerformanceHistory('On-Time Delivery Rate');
+                    end;
                 }
                 field("Quality Rating"; Rec."Quality Rating")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the quality rating of the vendor.';
                     StyleExpr = QualityRatingStyle;
+                    DrillDown = true;
+                    DrillDownPageId = "Vendor Performance History";
+
+                    trigger OnDrillDown()
+                    begin
+                        OpenVendorPerformanceHistory('Quality Rating');
+                    end;
                 }
                 field("Price Competitiveness Score"; Rec."Price Competitiveness Score")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the price competitiveness score of the vendor.';
                     StyleExpr = PriceCompetitivenessStyle;
+                    DrillDown = true;
+                    DrillDownPageId = "Vendor Performance History";
+
+                    trigger OnDrillDown()
+                    begin
+                        OpenVendorPerformanceHistory('Price Competitiveness Score');
+                    end;
                 }
                 field("Response Time Rating"; Rec."Response Time Rating")
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the response time rating of the vendor.';
                     StyleExpr = ResponseTimeStyle;
+                    DrillDown = true;
+                    DrillDownPageId = "Vendor Performance History";
+
+                    trigger OnDrillDown()
+                    begin
+                        OpenVendorPerformanceHistory('Response Time Rating');
+                    end;
                 }
                 field("Last Evaluation Date"; Rec."Last Evaluation Date")
                 {
@@ -140,5 +175,16 @@ pageextension 50300 "Vendor Card Ext" extends "Vendor Card"
             Rec."Performance Trend"::Declining:
                 exit('Unfavorable');
         end;
+    end;
+
+    local procedure OpenVendorPerformanceHistory(FieldName: Text)
+    var
+        VendorPerformanceHistory: Record "Vendor Performance History";
+        VendorPerformanceHistoryPage: Page "Vendor Performance History";
+    begin
+        VendorPerformanceHistory.SetRange("Vendor No.", Rec."No.");
+        VendorPerformanceHistoryPage.SetTableView(VendorPerformanceHistory);
+        VendorPerformanceHistoryPage.SetDrillDownField(FieldName);
+        VendorPerformanceHistoryPage.Run();
     end;
 }

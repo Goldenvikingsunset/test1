@@ -72,6 +72,96 @@ page 50300 "Vendor Performance History"
                 RunPageLink = "No." = field("Vendor No.");
                 ToolTip = 'Open the vendor card for this performance history record.';
             }
+            action(FilterByMetric)
+            {
+                ApplicationArea = All;
+                Caption = 'Filter by Metric';
+                Image = Filter;
+                Promoted = true;
+                PromotedCategory = Process;
+                ToolTip = 'Apply a filter to show only specific performance metrics.';
+
+                trigger OnAction()
+                var
+                    FilterOptions: Text;
+                    SelectedFilter: Integer;
+                begin
+                    FilterOptions := 'Overall Performance,On-Time Delivery,Quality Rating,Price Competitiveness,Response Time';
+                    SelectedFilter := StrMenu(FilterOptions, 1, 'Select a metric to filter by:');
+                    case SelectedFilter of
+                        1:
+                            Rec.SetFilter("Overall Performance Score", '>0');
+                        2:
+                            Rec.SetFilter("On-Time Delivery Rate", '>0');
+                        3:
+                            Rec.SetFilter("Quality Rating", '>0');
+                        4:
+                            Rec.SetFilter("Price Competitiveness Score", '>0');
+                        5:
+                            Rec.SetFilter("Response Time Rating", '>0');
+                    end;
+                    CurrPage.Update(false);
+                end;
+            }
         }
     }
+
+    views
+    {
+        view(AllMetrics)
+        {
+            Caption = 'All Metrics';
+            Filters = where("Overall Performance Score" = filter('>0'));
+        }
+        view(OnTimeDelivery)
+        {
+            Caption = 'On-Time Delivery';
+            Filters = where("On-Time Delivery Rate" = filter('>0'));
+        }
+        view(QualityRating)
+        {
+            Caption = 'Quality Rating';
+            Filters = where("Quality Rating" = filter('>0'));
+        }
+        view(PriceCompetitiveness)
+        {
+            Caption = 'Price Competitiveness';
+            Filters = where("Price Competitiveness Score" = filter('>0'));
+        }
+        view(ResponseTime)
+        {
+            Caption = 'Response Time';
+            Filters = where("Response Time Rating" = filter('>0'));
+        }
+    }
+
+    var
+        DrillDownField: Text;
+
+    trigger OnOpenPage()
+    begin
+        if DrillDownField <> '' then
+            SetFilterForField(DrillDownField);
+    end;
+
+    procedure SetDrillDownField(FieldName: Text)
+    begin
+        DrillDownField := FieldName;
+    end;
+
+    local procedure SetFilterForField(FieldName: Text)
+    begin
+        case FieldName of
+            'Overall Performance Score':
+                Rec.SetFilter("Overall Performance Score", '>0');
+            'On-Time Delivery Rate':
+                Rec.SetFilter("On-Time Delivery Rate", '>0');
+            'Quality Rating':
+                Rec.SetFilter("Quality Rating", '>0');
+            'Price Competitiveness Score':
+                Rec.SetFilter("Price Competitiveness Score", '>0');
+            'Response Time Rating':
+                Rec.SetFilter("Response Time Rating", '>0');
+        end;
+    end;
 }
