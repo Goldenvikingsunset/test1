@@ -95,7 +95,6 @@ pageextension 50300 "Vendor Card Ext" extends "Vendor Card"
                 RunPageLink = "Vendor No." = field("No.");
                 ToolTip = 'View the performance history for this vendor.';
             }
-
         }
     }
 
@@ -124,9 +123,9 @@ pageextension 50300 "Vendor Card Ext" extends "Vendor Card"
 
     local procedure GetPerformanceStyle(Score: Decimal): Text
     begin
-        if Score >= 80 then
-            exit('Favorable');
         if Score >= 60 then
+            exit('Favorable');
+        if Score >= 40 then
             exit('Ambiguous');
         exit('Unfavorable');
     end;
