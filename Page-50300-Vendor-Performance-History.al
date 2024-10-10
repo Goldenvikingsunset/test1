@@ -48,11 +48,6 @@ page 50300 "Vendor Performance History"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the price competitiveness score of the vendor for this record.';
                 }
-                field("Response Time Rating"; Rec."Response Time Rating")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the response time rating of the vendor for this record.';
-                }
             }
         }
     }
@@ -97,8 +92,6 @@ page 50300 "Vendor Performance History"
                             Rec.SetFilter("Quality Rating", '>0');
                         4:
                             Rec.SetFilter("Price Competitiveness Score", '>0');
-                        5:
-                            Rec.SetFilter("Response Time Rating", '>0');
                     end;
                     CurrPage.Update(false);
                 end;
@@ -128,11 +121,6 @@ page 50300 "Vendor Performance History"
             Caption = 'Price Competitiveness';
             Filters = where("Price Competitiveness Score" = filter('>0'));
         }
-        view(ResponseTime)
-        {
-            Caption = 'Response Time';
-            Filters = where("Response Time Rating" = filter('>0'));
-        }
     }
 
     var
@@ -160,8 +148,6 @@ page 50300 "Vendor Performance History"
                 Rec.SetFilter("Quality Rating", '>0');
             'Price Competitiveness Score':
                 Rec.SetFilter("Price Competitiveness Score", '>0');
-            'Response Time Rating':
-                Rec.SetFilter("Response Time Rating", '>0');
         end;
     end;
 }

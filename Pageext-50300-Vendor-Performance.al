@@ -69,19 +69,6 @@ pageextension 50300 "Vendor Card Ext" extends "Vendor Card"
                         OpenVendorPerformanceHistory('Price Competitiveness Score');
                     end;
                 }
-                field("Response Time Rating"; Rec."Response Time Rating")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the response time rating of the vendor.';
-                    StyleExpr = ResponseTimeStyle;
-                    DrillDown = true;
-                    DrillDownPageId = "Vendor Performance History";
-
-                    trigger OnDrillDown()
-                    begin
-                        OpenVendorPerformanceHistory('Response Time Rating');
-                    end;
-                }
                 field("Last Evaluation Date"; Rec."Last Evaluation Date")
                 {
                     ApplicationArea = All;
@@ -152,7 +139,6 @@ pageextension 50300 "Vendor Card Ext" extends "Vendor Card"
         OnTimeDeliveryStyle := GetPerformanceStyle(Rec."On-Time Delivery Rate");
         QualityRatingStyle := GetPerformanceStyle(Rec."Quality Rating");
         PriceCompetitivenessStyle := GetPerformanceStyle(Rec."Price Competitiveness Score");
-        ResponseTimeStyle := GetPerformanceStyle(Rec."Response Time Rating");
         PerformanceTrendStyle := GetTrendStyle();
     end;
 

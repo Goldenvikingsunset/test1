@@ -35,12 +35,6 @@ page 50301 "Vendor Performance Factbox"
                     ToolTip = 'Displays the price competitiveness of the vendor.';
                     StyleExpr = PriceStyle;
                 }
-                field("Response Time"; GetResponseTimeText())
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Displays the response time rating of the vendor.';
-                    StyleExpr = ResponseStyle;
-                }
                 field("Performance Trend"; Rec."Performance Trend")
                 {
                     ApplicationArea = All;
@@ -91,7 +85,6 @@ page 50301 "Vendor Performance Factbox"
         DeliveryStyle := GetStyleForScore(Rec."On-Time Delivery Rate");
         QualityStyle := GetStyleForScore(Rec."Quality Rating");
         PriceStyle := GetStyleForScore(Rec."Price Competitiveness Score");
-        ResponseStyle := GetStyleForScore(Rec."Response Time Rating");
         TrendStyle := GetTrendStyle();
     end;
 
@@ -139,8 +132,4 @@ page 50301 "Vendor Performance Factbox"
         exit(StrSubstNo('Price: %1%', Format(Round(Rec."Price Competitiveness Score", 0.1))));
     end;
 
-    local procedure GetResponseTimeText(): Text
-    begin
-        exit(StrSubstNo('Response: %1%', Format(Round(Rec."Response Time Rating", 0.1))));
-    end;
 }

@@ -34,14 +34,6 @@ tableextension 50300 "Vendor Performance Extension" extends Vendor
             MaxValue = 100;
             DecimalPlaces = 2;
         }
-        field(50104; "Response Time Rating"; Decimal)
-        {
-            Caption = 'Response Time Rating';
-            DataClassification = CustomerContent;
-            MinValue = 0;
-            MaxValue = 100;
-            DecimalPlaces = 2;
-        }
         field(50105; "Last Evaluation Date"; Date)
         {
             Caption = 'Last Evaluation Date';
