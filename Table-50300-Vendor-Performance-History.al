@@ -47,13 +47,6 @@ table 50300 "Vendor Performance History"
             MaxValue = 100;
             DecimalPlaces = 2;
         }
-        field(8; "Response Time Rating"; Decimal)
-        {
-            Caption = 'Response Time Rating';
-            MinValue = 0;
-            MaxValue = 100;
-            DecimalPlaces = 2;
-        }
     }
 
     keys

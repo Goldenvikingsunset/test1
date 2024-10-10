@@ -7,10 +7,9 @@ codeunit 50300 "Performance Calculation"
         OnTimeDelivery := CalculateOnTimeDeliveryRate(VendorNo);
         Quality := CalculateQualityRating(VendorNo);
         PriceComp := CalculatePriceCompetitiveness(VendorNo);
-        ResponseTime := CalculateResponseTimeRating(VendorNo);
 
         // Calculate overall score (equal weights for simplicity)
-        exit(Round((OnTimeDelivery + Quality + PriceComp + ResponseTime) / 4, 0.01));
+        exit(Round((OnTimeDelivery + Quality + PriceComp) / 3, 0.01));
     end;
 
     procedure CalculateOnTimeDeliveryRate(VendorNo: Code[20]): Decimal
@@ -84,25 +83,4 @@ codeunit 50300 "Performance Calculation"
             exit(0);
     end;
 
-    procedure CalculateResponseTimeRating(VendorNo: Code[20]): Decimal
-    var
-        PurchaseHeader: Record "Purchase Header";
-        TotalQuotes, QuickResponses : Integer;
-    begin
-        PurchaseHeader.SetRange("Document Type", PurchaseHeader."Document Type"::Quote);
-        PurchaseHeader.SetRange("Buy-from Vendor No.", VendorNo);
-        PurchaseHeader.SetRange("Document Date", CalcDate('<-1Y>', WorkDate()), WorkDate());
-
-        if PurchaseHeader.FindSet() then
-            repeat
-                TotalQuotes += 1;
-                if (PurchaseHeader."Due Date" - PurchaseHeader."Document Date") <= 5 then
-                    QuickResponses += 1;
-            until PurchaseHeader.Next() = 0;
-
-        if TotalQuotes > 0 then
-            exit((QuickResponses / TotalQuotes) * 100)
-        else
-            exit(0);
-    end;
 }

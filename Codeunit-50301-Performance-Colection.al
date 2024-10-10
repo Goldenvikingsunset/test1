@@ -11,7 +11,6 @@ codeunit 50301 "Performance Data Collection"
         Vendor."On-Time Delivery Rate" := CollectDeliveryData(VendorNo);
         Vendor."Quality Rating" := CollectQualityData(VendorNo);
         Vendor."Price Competitiveness Score" := CollectPricingData(VendorNo);
-        Vendor."Response Time Rating" := CollectResponseTimeData(VendorNo);
         Vendor."Overall Performance Score" := PerformanceCalc.CalculateOverallPerformance(VendorNo);
         Vendor."Last Evaluation Date" := WorkDate();
         Vendor.Modify(true);
@@ -40,12 +39,6 @@ codeunit 50301 "Performance Data Collection"
         exit(PerformanceCalc.CalculatePriceCompetitiveness(VendorNo));
     end;
 
-    local procedure CollectResponseTimeData(VendorNo: Code[20]): Decimal
-    var
-        PerformanceCalc: Codeunit "Performance Calculation";
-    begin
-        exit(PerformanceCalc.CalculateResponseTimeRating(VendorNo));
-    end;
 
     local procedure CreatePerformanceHistoryEntry(Vendor: Record Vendor)
     var
@@ -59,7 +52,6 @@ codeunit 50301 "Performance Data Collection"
         VendorPerfHistory."On-Time Delivery Rate" := Vendor."On-Time Delivery Rate";
         VendorPerfHistory."Quality Rating" := Vendor."Quality Rating";
         VendorPerfHistory."Price Competitiveness Score" := Vendor."Price Competitiveness Score";
-        VendorPerfHistory."Response Time Rating" := Vendor."Response Time Rating";
         VendorPerfHistory.Insert(true);
     end;
 }
