@@ -47,13 +47,14 @@ codeunit 50300 "Performance Calculation"
 
         if ItemLedgerEntry.FindSet() then
             repeat
-                TotalQuantity += ItemLedgerEntry.Quantity;
-                if ItemLedgerEntry."Item Tracking" = ItemLedgerEntry."Item Tracking"::None then
-                    AcceptedQuantity += ItemLedgerEntry.Quantity;
+                if ItemLedgerEntry."Entry Type" = ItemLedgerEntry."Entry Type"::Purchase then begin
+                    TotalQuantity += Abs(ItemLedgerEntry.Quantity);
+                    AcceptedQuantity += ItemLedgerEntry.Quantity; // This will subtract returns automatically
+                end;
             until ItemLedgerEntry.Next() = 0;
 
         if TotalQuantity > 0 then
-            exit(AcceptedQuantity / TotalQuantity * 100)
+            exit(Round((AcceptedQuantity / TotalQuantity) * 100, 0.01))
         else
             exit(0);
     end;
